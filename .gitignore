@@ -1,0 +1,30 @@
+# build output
+build/
+
+# python tooling for integration tests
+.venv/
+__pycache__/
+*.pyc
+
+# runtime data
+*.aof
+*.aof.rewrite.tmp
+bench/results/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# local-only: kept on disk, not published
+PLAN.md
+setup.ps1
+requirements.txt
+tests/
+bench/
+demo/Dockerfile
+demo/demo.tape
+Dockerfile
+docker-compose.yml
+.dockerignore

@@ -1,0 +1,3 @@
+# Keep LF everywhere so files build the same inside the Linux Docker image.
+* text=auto eol=lf
+*.ps1 text eol=crlf

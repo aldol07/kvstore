@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 3.16)
+project(kvstore CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+add_compile_options(-Wall -Wextra -Wpedantic)
+
+add_library(kvcore src/resp.cpp src/store.cpp src/commands.cpp src/aof.cpp src/event_loop.cpp)
+target_include_directories(kvcore PUBLIC src)
+
+add_executable(kvstore src/main.cpp)
+target_link_libraries(kvstore PRIVATE kvcore)
+
+option(KV_BUILD_TESTS "Build Google Test suite (if tests/ is present)" ON)
+if(KV_BUILD_TESTS AND EXISTS ${CMAKE_SOURCE_DIR}/tests/store_test.cpp)
+  find_package(GTest REQUIRED)
+  enable_testing()
+  add_executable(kv_tests tests/resp_test.cpp tests/store_test.cpp tests/commands_test.cpp tests/aof_test.cpp)
+  target_link_libraries(kv_tests PRIVATE kvcore GTest::gtest_main)
+  include(GoogleTest)
+  gtest_discover_tests(kv_tests)
+endif()
